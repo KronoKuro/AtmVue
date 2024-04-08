@@ -1,4 +1,6 @@
 using AtmSimulatorInfrastructure;
+using AtmSimulatorInfrastructure.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,11 +18,11 @@ namespace AtmSimulator.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        private AtmSimulatorContext _context;
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, AtmSimulatorContext context)
+        private IRepository _userRepository;
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IRepository userRepository)
         {
             _logger = logger;
-            _context = context;
+            _userRepository = userRepository;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
@@ -29,7 +31,7 @@ namespace AtmSimulator.Controllers
             var result = new List<WeatherForecast>();
            
                 // получаем объекты из бд и выводим на консоль
-                var users = _context.Users.ToList();
+                var users = _userRepository.Get<IdentityUser>().ToList();
                
                 Console.WriteLine("Users list:");
                 foreach (var user in users)

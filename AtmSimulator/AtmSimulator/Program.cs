@@ -1,4 +1,8 @@
 using AtmSimulatorInfrastructure;
+using AtmSimulatorInfrastructure.Implementation;
+using AtmSimulatorInfrastructure.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,8 +14,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<AtmSimulatorContext>(options =>
-options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<AtmSimulatorContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddTransient<IRepository, Repository<AtmSimulatorContext>>();
 //builder.Services.AddScoped<IDataAccessProvider, DataAccessProvider>();
 
 

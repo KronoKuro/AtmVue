@@ -10,8 +10,10 @@ namespace AtmSimulatorInfrastructure
 {
     public class AtmSimulatorContext : IdentityDbContext
     {
-        public AtmSimulatorContext(DbContextOptions<AtmSimulatorContext> options) : base(options)
+        private readonly DbContextOptions _options;
+        public AtmSimulatorContext(DbContextOptions options) : base(options)
         {
+            _options = options;
         }
 
 
